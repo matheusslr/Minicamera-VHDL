@@ -1,0 +1,8 @@
+ENTITY contador IS
+PORT(T,clk:IN BIT;
+	Q: OUT BIT);
+END contador;
+
+ARCHITECTURE behavior of contador IS 
+	
+	

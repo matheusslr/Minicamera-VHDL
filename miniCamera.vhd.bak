@@ -1,0 +1,29 @@
+ENTITY minicamera IS
+    PORT(E,Button,C,TR,TL,reset,clk:IN BIT;R,G,B,ZL,ZR:OUT BIT);
+END;
+
+ARCHITECTURE behavior OF minicamera IS
+    TYPE estado IS (closedcam,statephoto);--,resetTR,capturePhoto,deletePhoto,stateVideo,resetTR2,filming,saveVideo,deletevideo);
+    SIGNAL estado_atual : estado;
+    BEGIN
+        PROCESS(clk,E,reset) --Button,C,TR,TL,
+
+            BEGIN 
+                IF(reset='1') THEN
+                    estado_atual<=closedcam;
+                ELSIF(clk'EVENT and clk = '1') THEN
+                    CASE estado_atual IS
+                        when closedcam =>
+                            IF(E='1') THEN
+                                estado_atual<= statePhoto;
+                            END IF;
+
+
+                    END CASE;
+                END IF;
+            END PROCESS;
+
+    WITH estado_atual SELECT
+        R <= '1' WHEN statePhoto,
+        '0' WHEN closedcam;
+    END;
